@@ -5,25 +5,8 @@ bits 16    ; historical reasons, but always start in 16 bit
 ; nasm macros
 %define ENDL 0x0D, 0x0A
 
-main:
-	; setup data segments
-	mov ax, 0
-	mov ds, ax
-	mov es, ax
-
-	; setup stack
-	mov ss, ax
-	mov sp, 0x7C00 ; stack grows downwards
-
-	; print dapne
-	mov si, msg_dapne
-	call puts
-
-	hlt ; halt - does nothing
-
-; make sure if the program continues it will continue halting
-.halt:
-	jmp .halt
+start:
+	jmp main
 
 ;
 puts:
@@ -46,6 +29,28 @@ puts:
 	pop ax
 	pop si
 	ret
+
+main:
+	; setup data segments
+	mov ax, 0
+	mov ds, ax
+	mov es, ax
+
+	; setup stack
+	mov ss, ax
+	mov sp, 0x7C00 ; stack grows downwards
+
+	; print dapne
+	mov si, msg_dapne
+	call puts
+
+	hlt ; halt - does nothing
+
+; make sure if the program continues it will continue halting
+.halt:
+	jmp .halt
+
+
 
 ; constants
 msg_dapne:
